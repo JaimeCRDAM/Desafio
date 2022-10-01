@@ -5,7 +5,7 @@ abstract class APerson() {
         incrementar()
     }
     abstract var NIDI:String
-    abstract var nombre:String
+    abstract var name:String
     companion object {
         var NIDIstatic = 0
         fun incrementar(){

@@ -34,8 +34,7 @@ object Factory {
         return Patient(NIDI, name, insurance, attention, Random().nextInt(1, 4))
     }
 
-    fun turnFactory(turnStart:Int, turnEnd:Int, specialties:Array<ASpecialty>):Turn{
-
-        return Turn(turnStart, turnEnd, specialties)
+    fun turnFactory(turnStart:Int, turnEnd:Int, turnDay:Int, specialties:Array<ASpecialty>, rooms:Array<Room>):Turn{
+        return Turn(turnStart, turnEnd, Turn.turnNumber, turnDay, specialties, rooms)
     }
 }
