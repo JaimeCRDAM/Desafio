@@ -7,7 +7,7 @@ import Models.People.Patient
 import java.time.DayOfWeek
 import java.util.stream.Collectors
 
-class Turn(var turnStart:Int, var turnEnd:Int, val turnNumber:Int, turnDay:Int, var specialties:Array<ASpecialty>, val rooms:Array<Room>) {
+class Turn(val turnNumber:Int, turnDay:Int, var specialties:Array<ASpecialty>, val rooms:Array<Room>) {
     init {
         Increment()
     }
@@ -33,6 +33,10 @@ class Turn(var turnStart:Int, var turnEnd:Int, val turnNumber:Int, turnDay:Int, 
                 Treatment(patient, medic)
                 return
             }
+            MovePatient(patient)
+            return
+        }
+        if(patient != null){
             MovePatient(patient)
         }
     }
@@ -81,12 +85,21 @@ class Turn(var turnStart:Int, var turnEnd:Int, val turnNumber:Int, turnDay:Int, 
     }
 
     fun MovePatient(patient: Patient){
-        val stringToAdd = "Patient ${patient.name} with NIDI ${patient.NIDI}, Insurance ${patient.insurance} that came on ${turnDay} with clear symptoms of ${patient.attention} could not be attended at Nebulon-B Frigate for lacking of staff/insurance"
+        val stringToAdd = "Patient ${patient.name} with NIDI ${patient.NIDI}, Insurance ${patient.insurance} attended on ${turnDay} with clear symptoms of ${patient.attention} could not be attended at Nebulon-B Frigate for lacking of staff/insurance"
         movedPatients.add(stringToAdd)
+
     }
     fun Treatment(patient: Patient, medic: Medic){
-        val stringToAdd = "Patient ${patient.name} with NIDI ${patient.NIDI}, Insurance ${patient.insurance} that came on ${turnDay} with clear symptoms of ${patient.attention} was attended at Nebulon-B Frigate by ${medic.name} with NIDI ${medic.NIDI} "
+        val stringToAdd = "Patient ${patient.name} with NIDI ${patient.NIDI}, Insurance ${patient.insurance} attended on ${turnDay} with clear symptoms of ${patient.attention} was attended at Nebulon-B Frigate by ${medic.name} with NIDI ${medic.NIDI}"
         attendedPatients.add(stringToAdd)
+    }
+
+    fun TurnRecap():Pair<ArrayList<String>,  ArrayList<String>>{
+        return Pair(attendedPatients, movedPatients)
+    }
+
+    fun GetDay():DayOfWeek{
+        return turnDay
     }
 
 }

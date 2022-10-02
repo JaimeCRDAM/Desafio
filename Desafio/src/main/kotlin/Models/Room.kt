@@ -21,7 +21,7 @@ class Room {
     fun PatientArrives(patient: Patient){
         patients.add(patient)
         patients.sortBy {
-            it.prioridad
+            it.priority
         }
     }
 

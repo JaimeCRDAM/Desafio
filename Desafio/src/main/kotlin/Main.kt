@@ -1,5 +1,5 @@
-import Models.Turn
+import Models.System
 
 fun main(args: Array<String>) {
-    Turn()
+    System()
 }

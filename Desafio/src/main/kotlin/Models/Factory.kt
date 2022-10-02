@@ -19,7 +19,8 @@ object Factory {
         for (i in 0..1){
             var insurance = insuranceArray[Random().nextInt(0, insuranceArray.size)]
             company[i] = insurance
-            while (company[0] == insurance){
+            while (company[0] == insurance && i == 1){
+                insurance = insuranceArray[Random().nextInt(0, insuranceArray.size)]
                 company[i] = insurance
             }
         }
@@ -34,7 +35,7 @@ object Factory {
         return Patient(NIDI, name, insurance, attention, Random().nextInt(1, 4))
     }
 
-    fun turnFactory(turnStart:Int, turnEnd:Int, turnDay:Int, specialties:Array<ASpecialty>, rooms:Array<Room>):Turn{
-        return Turn(turnStart, turnEnd, Turn.turnNumber, turnDay, specialties, rooms)
+    fun turnFactory(turnDay:Int, specialties:Array<ASpecialty>, rooms:Array<Room>):Turn{
+        return Turn(Turn.turnNumber, turnDay, specialties, rooms)
     }
 }
