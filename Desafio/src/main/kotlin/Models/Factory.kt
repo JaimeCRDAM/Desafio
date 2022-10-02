@@ -13,9 +13,9 @@ object Factory {
     private var atenttionArray = arrayOf("Quemadura láser", "Impacto chorritrónico", "Otros")
 
     fun factoryMedic(specialty:ASpecialty):Medic{
-        var NIDI =APerson.NIDIstatic.toString()
-        var name = medicArray[Random().nextInt(0, medicArray.size)]
-        var company = Array<String>(2){""}
+        val NIDI =APerson.NIDIStatic.toString()
+        val name = medicArray[Random().nextInt(0, medicArray.size)]
+        val company = Array(2){""}
         for (i in 0..1){
             var insurance = insuranceArray[Random().nextInt(0, insuranceArray.size)]
             company[i] = insurance
@@ -28,10 +28,10 @@ object Factory {
     }
 
     fun factorySoldier():Patient{
-        var NIDI =APerson.NIDIstatic.toString()
-        var name = soldiersArray[Random().nextInt(0, soldiersArray.size)]
-        var insurance = insuranceArray[Random().nextInt(0, insuranceArray.size)]
-        var attention = atenttionArray[Random().nextInt(0, atenttionArray.size)]
+        val NIDI =APerson.NIDIStatic.toString()
+        val name = soldiersArray[Random().nextInt(0, soldiersArray.size)]
+        val insurance = insuranceArray[Random().nextInt(0, insuranceArray.size)]
+        val attention = atenttionArray[Random().nextInt(0, atenttionArray.size)]
         return Patient(NIDI, name, insurance, attention, Random().nextInt(1, 4))
     }
 

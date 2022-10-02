@@ -1,15 +1,15 @@
 package Models.AModels
 
-abstract class APerson() {
+abstract class APerson {
     init {
-        incrementar()
+        increment()
     }
     abstract var NIDI:String
     abstract var name:String
     companion object {
-        var NIDIstatic = 0
-        fun incrementar(){
-            NIDIstatic++
+        var NIDIStatic = 0
+        fun increment(){
+            NIDIStatic++
         }
     }
 }

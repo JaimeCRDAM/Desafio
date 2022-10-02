@@ -3,16 +3,7 @@ package Models
 import Models.People.Patient
 
 class Room {
-    var capacity:Int = 20
-    var patients:ArrayList<Patient> = ArrayList()
-
-
-
-
-
-
-
-
+    private var patients:ArrayList<Patient> = ArrayList()
 
     fun GetAmountPatients():Int{
         return patients.size

@@ -2,7 +2,7 @@ package Models.Specialties
 
 import Models.AModels.ASpecialty
 
-class Internist() : ASpecialty() {
+class Internist : ASpecialty() {
     override var canAttend = ArrayList<String>()
     init {
         AddCanAttend("Impacto chorritrónico")
