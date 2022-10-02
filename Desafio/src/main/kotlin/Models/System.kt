@@ -44,7 +44,7 @@ class System {
                 currentTurn = StartTurn(DayOfWeek)
             }
             time++
-            //Thread.sleep(1000)
+            Thread.sleep(1000)
         }
     }
 
