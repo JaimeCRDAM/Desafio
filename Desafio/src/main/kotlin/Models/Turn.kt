@@ -45,7 +45,10 @@ class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpeci
 
     private fun TreatmentAvailability(patient: Patient):Medic? {
         medics.map {medic ->
-            return medic.specialty.CanAttendPatient(patient, medic)
+            var canMedicAttend = medic.specialty.CanAttendPatient(patient, medic)
+            if(canMedicAttend != null){
+                return canMedicAttend
+            }
         }
         return null
     }
