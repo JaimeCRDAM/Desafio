@@ -37,7 +37,7 @@ class System {
                 currentTurn = RecapAndStartTurn()
             }
             time++
-            //Thread.sleep(1000)
+            Thread.sleep(1000)
         }
     }
 

@@ -9,7 +9,7 @@ import java.time.DayOfWeek
 class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpecialty>, private val rooms:Array<Room>) {
     private val medics:ArrayList<Medic> = ArrayList()
     private val turnDay: DayOfWeek = DayOfWeek.of(turnDay)
-    private val howManyDoctorsOfEach = 2
+    private val howManyDoctorsOfEach = 1
     private var attendedPatients:ArrayList<String> = ArrayList()
     private var movedPatients:ArrayList<String> = ArrayList()
     init {
