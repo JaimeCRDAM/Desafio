@@ -43,7 +43,7 @@ class System {
 
     private fun LeastFullRoom(rooms:Array<Room>):Room{
         var leastFull: Room = rooms[0]
-        rooms.map {
+        rooms.forEach {
             if(leastFull.GetAmountPatients() > it.GetAmountPatients()){
                 leastFull = it
             }

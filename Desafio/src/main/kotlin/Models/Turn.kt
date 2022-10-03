@@ -44,7 +44,7 @@ class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpeci
     }
 
     private fun TreatmentAvailability(patient: Patient):Medic? {
-        medics.map {medic ->
+        medics.forEach {medic ->
             var canMedicAttend = medic.specialty.CanAttendPatient(patient, medic)
             if(canMedicAttend != null){
                 return canMedicAttend
@@ -59,7 +59,7 @@ class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpeci
 
     private fun MostFullRoom(): Room {
         var mostFullRoom:Room = rooms[0]
-        rooms.map {
+        rooms.forEach {
             if(mostFullRoom.GetAmountPatients() < it.GetAmountPatients()){
                 mostFullRoom = it
             }
@@ -88,7 +88,7 @@ class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpeci
     private fun EnrollMedics(){
         var specialtySize = specialties.size
         var amount = specialtySize*howManyDoctorsOfEach
-        (1..amount).map {i ->
+        (1..amount).forEach {i ->
             var specialty = specialties[i%specialtySize]
             medics.add(factoryMedic(specialty))
         }
