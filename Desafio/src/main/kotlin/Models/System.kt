@@ -11,9 +11,9 @@ import java.util.stream.Collectors
 import kotlin.math.floor
 
 class System {
+    private var time = 1
     private val roomsAmount = 3
     private val rooms:Array<Room> = Array(roomsAmount){Room()}
-    private var time = 1
     private val turnsPerDay = 3
     private val turnTime = 10
     private val Days = 7
@@ -24,9 +24,6 @@ class System {
     init {
         Simulation()
     }
-
-
-
 
     private fun Simulation(){
         while (time < totalSimTime){
@@ -45,16 +42,13 @@ class System {
     }
 
     private fun LeastFullRoom(rooms:Array<Room>):Room{
-        var leastFull: Room? = null
+        var leastFull: Room = rooms[0]
         rooms.map {
-            if (leastFull == null){
-                leastFull = it
-            }
-            if(leastFull!!.GetAmountPatients() > it.GetAmountPatients()){
+            if(leastFull.GetAmountPatients() > it.GetAmountPatients()){
                 leastFull = it
             }
         }
-        return leastFull!!
+        return leastFull
     }
     private fun PatientArrives(){
         val leastFullRoom = LeastFullRoom(rooms)
@@ -65,15 +59,15 @@ class System {
     }
     private fun AvailableSpecialties():Array<ASpecialty>{
         lateinit var availableSpecialties:Array<ASpecialty>
-        val si = FindAllClassesUsingClassLoader("Models.Specialties").toList()
-        availableSpecialties = Array(si.size){
-            si[it].getDeclaredConstructor().newInstance() as ASpecialty
+        val classes = FindAllClassesUsingClassLoader("Models.Specialties").toList()
+        availableSpecialties = Array(classes.size){
+            classes[it].getDeclaredConstructor().newInstance() as ASpecialty
         }
         return availableSpecialties
     }
     private fun FindAllClassesUsingClassLoader(packageName: String): Set<Class<*>> {//God Bless Reflection
         val stream = ClassLoader.getSystemClassLoader()
-            .getResourceAsStream(packageName.replace("[.]".toRegex(), "/"))
+            .getResourceAsStream(packageName.replace("[.]".toRegex(), "/"))!!
         val reader = BufferedReader(InputStreamReader(stream))
         return reader.lines()
             .filter { line: String -> line.endsWith(".class") }
@@ -88,11 +82,11 @@ class System {
     }
     private fun GetCurrentDay(time:Int, totalTurnTime:Int):Int{
         val dayNumber:Int = floor((time / totalTurnTime).toDouble()).toInt()
-        if (dayNumber == 7)
-            return 7
+        if (dayNumber >= 7)
+            return dayNumber%7+1
         return dayNumber+1
     }
-    private fun TurnRecapToString(pair:Pair<ArrayList<String>, ArrayList<String>>, day:DayOfWeek, turnTime:Int){
+    private fun TurnRecapToString(pair:Pair<ArrayList<String>, ArrayList<String>>, day:DayOfWeek, turnTime:Int, systemDuration:Int){
         val arrayOfTimes = arrayOf("00:00-08:00", "08:00-16:00", "16:00-00:00")
         println("\n$day turn range: ${arrayOfTimes[turnTime%3]}")
         println("Treated patients:")
@@ -106,7 +100,7 @@ class System {
     }
     private fun RecapAndStartTurn():Turn{
         val DayOfWeek = GetCurrentDay(time, turnsPerDay*turnTime)
-        TurnRecapToString(currentTurn.TurnRecap(), currentTurn.GetDay(), currentTurn.turnNumber)
+        TurnRecapToString(currentTurn.TurnRecap(), currentTurn.GetDay(), currentTurn.turnNumber, DayOfWeek)
         return StartTurn(DayOfWeek, availableSpecialties)
     }
 }

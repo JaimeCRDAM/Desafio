@@ -1,9 +1,11 @@
 package Models.Specialties
 
 import Models.AModels.ASpecialty
+import Models.People.Patient
+import java.util.Arrays
 
 class Internist : ASpecialty() {
-    override var canAttend = ArrayList<String>()
+    override var canAttend: ArrayList<String> = ArrayList(1)
     init {
         AddCanAttend("Impacto chorritrónico")
     }

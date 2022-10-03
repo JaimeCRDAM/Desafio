@@ -65,57 +65,26 @@ public final class Turn {
     }
 
     public final void TreatPatient() {
-        Medic medic;
-        Medic medic2;
-        Patient patient;
-        Patient patient2 = patient = this.ChoosePatient();
-        if (patient2 != null) {
-            Patient it = patient2;
-            boolean bl = false;
-            medic2 = this.TreatmentAvailability(it);
-        } else {
-            medic2 = medic = null;
-        }
-        if (medic != null) {
-            boolean canAttend = this.CompanyCompatibility(patient, medic);
-            if (canAttend) {
-                this.Treatment(patient, medic);
-                return;
-            }
-            this.MovePatient(patient);
+        Patient patient = this.ChoosePatient();
+        if (patient == null) {
             return;
         }
-        if (patient != null) {
-            this.MovePatient(patient);
+        Patient patient2 = patient;
+        Medic medic = this.TreatmentAvailability(patient2);
+        if (medic == null) {
+            this.MovePatient(patient2);
+            return;
         }
+        boolean canAttend = this.CompanyCompatibility(patient2, medic);
+        if (canAttend) {
+            this.Treatment(patient2, medic);
+            return;
+        }
+        this.MovePatient(patient2);
     }
 
-    /*
-     * WARNING - void declaration
-     */
     private final boolean CompanyCompatibility(Patient patient, Medic medic) {
-        if (patient != null) {
-            void $this$mapTo$iv$iv;
-            String[] $this$map$iv = medic.getCompany();
-            boolean $i$f$map = false;
-            String[] arrstring = $this$map$iv;
-            Collection destination$iv$iv = new ArrayList($this$map$iv.length);
-            boolean $i$f$mapTo = false;
-            int n = ((void)$this$mapTo$iv$iv).length;
-            for (int i = 0; i < n; ++i) {
-                void medicCompany;
-                void item$iv$iv;
-                void var11_11 = item$iv$iv = $this$mapTo$iv$iv[i];
-                Collection collection = destination$iv$iv;
-                boolean bl = false;
-                if (Intrinsics.areEqual(medicCompany, patient.getInsurance())) {
-                    return true;
-                }
-                collection.add(Unit.INSTANCE);
-            }
-            List cfr_ignored_0 = (List)destination$iv$iv;
-        }
-        return false;
+        return medic.ShareCompany(patient, medic);
     }
 
     /*
@@ -128,39 +97,19 @@ public final class Turn {
         Iterable iterable = $this$map$iv;
         Collection destination$iv$iv = new ArrayList(CollectionsKt.collectionSizeOrDefault($this$map$iv, 10));
         boolean $i$f$mapTo = false;
-        for (Object item$iv$iv : $this$mapTo$iv$iv) {
-            void $this$mapTo$iv$iv2;
-            void medic;
-            Medic medic2 = (Medic)item$iv$iv;
-            Collection collection = destination$iv$iv;
+        Iterator iterator2 = $this$mapTo$iv$iv.iterator();
+        if (iterator2.hasNext()) {
+            Object item$iv$iv = iterator2.next();
+            Medic medic = (Medic)item$iv$iv;
             boolean bl = false;
-            Iterable $this$map$iv2 = medic.getSpecialty().getCanAttend();
-            boolean $i$f$map2 = false;
-            Iterable iterable2 = $this$map$iv2;
-            Collection destination$iv$iv2 = new ArrayList(CollectionsKt.collectionSizeOrDefault($this$map$iv2, 10));
-            boolean $i$f$mapTo2 = false;
-            for (Object item$iv$iv2 : $this$mapTo$iv$iv2) {
-                void provides;
-                String string = (String)item$iv$iv2;
-                Collection collection2 = destination$iv$iv2;
-                boolean bl2 = false;
-                if (Intrinsics.areEqual(patient.getAttention(), provides)) {
-                    return medic;
-                }
-                collection2.add(Unit.INSTANCE);
-            }
-            collection.add((List)destination$iv$iv2);
+            return medic.getSpecialty().CanAttendPatient(patient, medic);
         }
         List cfr_ignored_0 = (List)destination$iv$iv;
         return null;
     }
 
     private final Patient ChoosePatient() {
-        Patient patient = this.MostFullRoom().PattientIsBeingAttended();
-        if (patient != null) {
-            return patient;
-        }
-        return null;
+        return this.MostFullRoom().PattientIsBeingAttended();
     }
 
     /*

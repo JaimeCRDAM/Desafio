@@ -25,50 +25,33 @@ class Turn(val turnNumber:Int, turnDay:Int, private var specialties:Array<ASpeci
 
 
     fun TreatPatient(){
-        val patient = ChoosePatient()
-        val medic = patient?.let { TreatmentAvailability(it) }
-        if (medic != null){
-            val canAttend = CompanyCompatibility(patient, medic)
-            if(canAttend){
-                Treatment(patient, medic)
-                return
-            }
+        val patient = ChoosePatient()?: return
+        val medic = TreatmentAvailability(patient)
+        if (medic == null){
             MovePatient(patient)
             return
         }
-        if(patient != null){
-            MovePatient(patient)
+        val canAttend = CompanyCompatibility(patient, medic)
+        if(canAttend){
+            Treatment(patient, medic)
+            return
         }
+        MovePatient(patient)
     }
 
     private fun CompanyCompatibility(patient: Patient, medic: Medic):Boolean{
-        if (patient != null){
-            medic.company.map { medicCompany ->
-                if(medicCompany == patient.insurance){
-                    return true
-                }
-            }
-        }
-        return false
+        return medic.ShareCompany(patient, medic)
     }
 
     private fun TreatmentAvailability(patient: Patient):Medic? {
         medics.map {medic ->
-            medic.specialty.canAttend.map { provides ->
-                if (patient.attention == provides){
-                    return medic
-                }
-            }
+            return medic.specialty.CanAttendPatient(patient, medic)
         }
         return null
     }
 
-    private fun ChoosePatient():Patient?{
-        val patient:Patient? = MostFullRoom().PattientIsBeingAttended()
-        if (patient != null){
-            return patient
-        }
-        return null
+    private fun ChoosePatient(): Patient? {
+        return MostFullRoom().PattientIsBeingAttended()
     }
 
     private fun MostFullRoom(): Room {

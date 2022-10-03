@@ -6,7 +6,6 @@ package Models;
 import Models.AModels.ASpecialty;
 import Models.Factory;
 import Models.Room;
-import Models.System;
 import Models.Turn;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,18 +20,20 @@ import kotlin.Metadata;
 import kotlin.Pair;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.text.Regex;
 import kotlin.text.StringsKt;
 import org.jetbrains.annotations.NotNull;
 
-@Metadata(mv={1, 7, 1}, k=1, xi=48, d1={"\u0000\\\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u0002\n\u0002\u0010\u0011\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\t\n\u0002\u0010\"\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0007\n\u0002\u0010\u0002\n\u0002\b\u0007\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\u0018\u00002\u00020\u0001B\u0005\u00a2\u0006\u0002\u0010\u0002J\u0013\u0010\u0014\u001a\b\u0012\u0004\u0012\u00020\b0\u0007H\u0002\u00a2\u0006\u0002\u0010\u0015J\u001a\u0010\u0016\u001a\f\u0012\b\u0012\u0006\u0012\u0002\b\u00030\u00180\u00172\u0006\u0010\u0019\u001a\u00020\u001aH\u0002J\u001c\u0010\u001b\u001a\u0006\u0012\u0002\b\u00030\u00182\u0006\u0010\u001c\u001a\u00020\u001a2\u0006\u0010\u0019\u001a\u00020\u001aH\u0002J\u0018\u0010\u001d\u001a\u00020\u00042\u0006\u0010\u0010\u001a\u00020\u00042\u0006\u0010\u001e\u001a\u00020\u0004H\u0002J\u001b\u0010\u001f\u001a\u00020\r2\f\u0010\f\u001a\b\u0012\u0004\u0012\u00020\r0\u0007H\u0002\u00a2\u0006\u0002\u0010 J\b\u0010!\u001a\u00020\"H\u0002J\b\u0010#\u001a\u00020\u000bH\u0002J\b\u0010$\u001a\u00020\"H\u0002J#\u0010%\u001a\u00020\u000b2\u0006\u0010&\u001a\u00020\u00042\f\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\b0\u0007H\u0002\u00a2\u0006\u0002\u0010'JL\u0010(\u001a\u00020\"22\u0010)\u001a.\u0012\u0014\u0012\u0012\u0012\u0004\u0012\u00020\u001a0+j\b\u0012\u0004\u0012\u00020\u001a`,\u0012\u0014\u0012\u0012\u0012\u0004\u0012\u00020\u001a0+j\b\u0012\u0004\u0012\u00020\u001a`,0*2\u0006\u0010-\u001a\u00020.2\u0006\u0010\u0012\u001a\u00020\u0004H\u0002R\u000e\u0010\u0003\u001a\u00020\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0005\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u0016\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\b0\u0007X\u0082\u0004\u00a2\u0006\u0004\n\u0002\u0010\tR\u000e\u0010\n\u001a\u00020\u000bX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0016\u0010\f\u001a\b\u0012\u0004\u0012\u00020\r0\u0007X\u0082\u0004\u00a2\u0006\u0004\n\u0002\u0010\u000eR\u000e\u0010\u000f\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0010\u001a\u00020\u0004X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0011\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0012\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0013\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000\u00a8\u0006/"}, d2={"LModels/System;", "", "()V", "DayOfWeek", "", "Days", "availableSpecialties", "", "LModels/AModels/ASpecialty;", "[LModels/AModels/ASpecialty;", "currentTurn", "LModels/Turn;", "rooms", "LModels/Room;", "[LModels/Room;", "roomsAmount", "time", "totalSimTime", "turnTime", "turnsPerDay", "AvailableSpecialties", "()[LModels/AModels/ASpecialty;", "FindAllClassesUsingClassLoader", "", "Ljava/lang/Class;", "packageName", "", "GetClass", "className", "GetCurrentDay", "totalTurnTime", "LeastFullRoom", "([LModels/Room;)LModels/Room;", "PatientArrives", "", "RecapAndStartTurn", "Simulation", "StartTurn", "dayOfWeek", "(I[LModels/AModels/ASpecialty;)LModels/Turn;", "TurnRecapToString", "pair", "Lkotlin/Pair;", "Ljava/util/ArrayList;", "Lkotlin/collections/ArrayList;", "day", "Ljava/time/DayOfWeek;", "Desafio"})
+/*
+ * Illegal identifiers - consider using --renameillegalidents true
+ */
+@Metadata(mv={1, 7, 1}, k=1, xi=48, d1={"\u0000^\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u0002\n\u0002\u0010\u0011\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\t\n\u0002\u0010\"\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0007\n\u0002\u0010\u0002\n\u0002\b\u0007\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\u0018\u00002\u00020\u0001B\u0005\u00a2\u0006\u0002\u0010\u0002J\u0013\u0010\u0014\u001a\b\u0012\u0004\u0012\u00020\b0\u0007H\u0002\u00a2\u0006\u0002\u0010\u0015J\u001a\u0010\u0016\u001a\f\u0012\b\u0012\u0006\u0012\u0002\b\u00030\u00180\u00172\u0006\u0010\u0019\u001a\u00020\u001aH\u0002J\u001c\u0010\u001b\u001a\u0006\u0012\u0002\b\u00030\u00182\u0006\u0010\u001c\u001a\u00020\u001a2\u0006\u0010\u0019\u001a\u00020\u001aH\u0002J\u0018\u0010\u001d\u001a\u00020\u00042\u0006\u0010\u0010\u001a\u00020\u00042\u0006\u0010\u001e\u001a\u00020\u0004H\u0002J\u001b\u0010\u001f\u001a\u00020\r2\f\u0010\f\u001a\b\u0012\u0004\u0012\u00020\r0\u0007H\u0002\u00a2\u0006\u0002\u0010 J\b\u0010!\u001a\u00020\"H\u0002J\b\u0010#\u001a\u00020\u000bH\u0002J\b\u0010$\u001a\u00020\"H\u0002J#\u0010%\u001a\u00020\u000b2\u0006\u0010&\u001a\u00020\u00042\f\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\b0\u0007H\u0002\u00a2\u0006\u0002\u0010'JT\u0010(\u001a\u00020\"22\u0010)\u001a.\u0012\u0014\u0012\u0012\u0012\u0004\u0012\u00020\u001a0+j\b\u0012\u0004\u0012\u00020\u001a`,\u0012\u0014\u0012\u0012\u0012\u0004\u0012\u00020\u001a0+j\b\u0012\u0004\u0012\u00020\u001a`,0*2\u0006\u0010-\u001a\u00020.2\u0006\u0010\u0012\u001a\u00020\u00042\u0006\u0010/\u001a\u00020\u0004H\u0002R\u000e\u0010\u0003\u001a\u00020\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0005\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u0016\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\b0\u0007X\u0082\u0004\u00a2\u0006\u0004\n\u0002\u0010\tR\u000e\u0010\n\u001a\u00020\u000bX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0016\u0010\f\u001a\b\u0012\u0004\u0012\u00020\r0\u0007X\u0082\u0004\u00a2\u0006\u0004\n\u0002\u0010\u000eR\u000e\u0010\u000f\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0010\u001a\u00020\u0004X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0011\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0012\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0013\u001a\u00020\u0004X\u0082D\u00a2\u0006\u0002\n\u0000\u00a8\u00060"}, d2={"LModels/System;", "", "()V", "DayOfWeek", "", "Days", "availableSpecialties", "", "LModels/AModels/ASpecialty;", "[LModels/AModels/ASpecialty;", "currentTurn", "LModels/Turn;", "rooms", "LModels/Room;", "[LModels/Room;", "roomsAmount", "time", "totalSimTime", "turnTime", "turnsPerDay", "AvailableSpecialties", "()[LModels/AModels/ASpecialty;", "FindAllClassesUsingClassLoader", "", "Ljava/lang/Class;", "packageName", "", "GetClass", "className", "GetCurrentDay", "totalTurnTime", "LeastFullRoom", "([LModels/Room;)LModels/Room;", "PatientArrives", "", "RecapAndStartTurn", "Simulation", "StartTurn", "dayOfWeek", "(I[LModels/AModels/ASpecialty;)LModels/Turn;", "TurnRecapToString", "pair", "Lkotlin/Pair;", "Ljava/util/ArrayList;", "Lkotlin/collections/ArrayList;", "day", "Ljava/time/DayOfWeek;", "systemDuration", "Desafio"})
 public final class System {
+    private int time = 1;
     private final int roomsAmount;
     @NotNull
     private final Room[] rooms;
-    private int time;
     private final int turnsPerDay;
     private final int turnTime;
     private final int Days;
@@ -54,17 +55,14 @@ public final class System {
             arrroom[n3] = new Room();
         }
         system.rooms = arrroom;
-        this.time = 1;
         this.turnsPerDay = 3;
         this.turnTime = 10;
-        this.Days = 7;
+        this.Days = 21;
         this.totalSimTime = this.Days * this.turnsPerDay * this.turnTime + 1;
         this.DayOfWeek = this.GetCurrentDay(1, this.turnsPerDay * this.turnTime);
         this.availableSpecialties = this.AvailableSpecialties();
         this.currentTurn = this.StartTurn(this.DayOfWeek, this.availableSpecialties);
-        for (int i = 0; i < 1001; ++i) {
-            this.Simulation();
-        }
+        this.Simulation();
     }
 
     private final void Simulation() {
@@ -89,6 +87,7 @@ public final class System {
     private final Room LeastFullRoom(Room[] rooms) {
         void $this$mapTo$iv$iv;
         Room leastFull = null;
+        leastFull = rooms[0];
         Room[] $this$map$iv = rooms;
         boolean $i$f$map = false;
         Room[] arrroom = $this$map$iv;
@@ -101,20 +100,13 @@ public final class System {
             void var11_11 = item$iv$iv = $this$mapTo$iv$iv[i];
             Collection collection = destination$iv$iv;
             boolean bl = false;
-            if (leastFull == null) {
-                leastFull = it;
-            }
-            Room room = leastFull;
-            Intrinsics.checkNotNull(room);
-            if (room.GetAmountPatients() > it.GetAmountPatients()) {
+            if (leastFull.GetAmountPatients() > it.GetAmountPatients()) {
                 leastFull = it;
             }
             collection.add(Unit.INSTANCE);
         }
         List cfr_ignored_0 = (List)destination$iv$iv;
-        Room room = leastFull;
-        Intrinsics.checkNotNull(room);
-        return room;
+        return leastFull;
     }
 
     private final void PatientArrives() {
@@ -144,26 +136,15 @@ public final class System {
 
     private final Set<Class<?>> FindAllClassesUsingClassLoader(String packageName) {
         CharSequence charSequence = packageName;
-        Object object = new Regex("[.]");
+        Regex regex = new Regex("[.]");
         String string = "/";
-        InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(((Regex)object).replace(charSequence, string));
+        InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(regex.replace(charSequence, string));
+        Intrinsics.checkNotNull(inputStream);
+        InputStream stream = inputStream;
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        object = reader.lines().filter(arg_0 -> System.FindAllClassesUsingClassLoader$lambda$1(FindAllClassesUsingClassLoader.1.INSTANCE, arg_0)).map(arg_0 -> System.FindAllClassesUsingClassLoader$lambda$2(new Function1<String, Class<?>>(this, packageName){
-            final /* synthetic */ System this$0;
-            final /* synthetic */ String $packageName;
-            {
-                this.this$0 = $receiver;
-                this.$packageName = $packageName;
-                super(1);
-            }
-
-            public final Class<?> invoke(@NotNull String line) {
-                Intrinsics.checkNotNullParameter(line, "line");
-                return System.access$GetClass(this.this$0, line, this.$packageName);
-            }
-        }, arg_0)).collect(Collectors.toSet());
-        Intrinsics.checkNotNullExpressionValue(object, "private fun FindAllClass\u2026Collectors.toSet())\n    }");
-        return (Set)object;
+        Set<Class<?>> set = reader.lines().filter(System::FindAllClassesUsingClassLoader$lambda-1).map(arg_0 -> System.FindAllClassesUsingClassLoader$lambda-2(this, packageName, arg_0)).collect(Collectors.toSet());
+        Intrinsics.checkNotNullExpressionValue(set, "reader.lines()\n         \u2026llect(Collectors.toSet())");
+        return set;
     }
 
     private final Class<?> GetClass(String className, String packageName) {
@@ -177,13 +158,13 @@ public final class System {
 
     private final int GetCurrentDay(int time, int totalTurnTime) {
         int dayNumber = (int)Math.floor(time / totalTurnTime);
-        if (dayNumber == 7) {
-            return 7;
+        if (dayNumber >= 7) {
+            return dayNumber % 7 + 1;
         }
         return dayNumber + 1;
     }
 
-    private final void TurnRecapToString(Pair<? extends ArrayList<String>, ? extends ArrayList<String>> pair, DayOfWeek day, int turnTime) {
+    private final void TurnRecapToString(Pair<? extends ArrayList<String>, ? extends ArrayList<String>> pair, DayOfWeek day, int turnTime, int systemDuration) {
         String it;
         Collection collection;
         Iterable $this$mapTo$iv$iv;
@@ -222,20 +203,19 @@ public final class System {
 
     private final Turn RecapAndStartTurn() {
         int DayOfWeek2 = this.GetCurrentDay(this.time, this.turnsPerDay * this.turnTime);
+        this.TurnRecapToString(this.currentTurn.TurnRecap(), this.currentTurn.GetDay(), this.currentTurn.getTurnNumber(), DayOfWeek2);
         return this.StartTurn(DayOfWeek2, this.availableSpecialties);
     }
 
-    private static final boolean FindAllClassesUsingClassLoader$lambda$1(Function1 $tmp0, Object p0) {
-        Intrinsics.checkNotNullParameter($tmp0, "$tmp0");
-        return (Boolean)$tmp0.invoke(p0);
+    private static final boolean FindAllClassesUsingClassLoader$lambda-1(String line) {
+        Intrinsics.checkNotNullParameter(line, "line");
+        return StringsKt.endsWith$default(line, ".class", false, 2, null);
     }
 
-    private static final Class FindAllClassesUsingClassLoader$lambda$2(Function1 $tmp0, Object p0) {
-        Intrinsics.checkNotNullParameter($tmp0, "$tmp0");
-        return (Class)$tmp0.invoke(p0);
-    }
-
-    public static final /* synthetic */ Class access$GetClass(System $this, String className, String packageName) {
-        return $this.GetClass(className, packageName);
+    private static final Class FindAllClassesUsingClassLoader$lambda-2(System this$0, String $packageName, String line) {
+        Intrinsics.checkNotNullParameter(this$0, "this$0");
+        Intrinsics.checkNotNullParameter($packageName, "$packageName");
+        Intrinsics.checkNotNullParameter(line, "line");
+        return this$0.GetClass(line, $packageName);
     }
 }
